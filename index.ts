@@ -89,14 +89,15 @@ class TP {
 
   private async sendRequest(apiUrl: string): Promise<Res> {
     return await fetch(apiUrl).then(rs => rs.json()).then(rs => {
+      const res: Res = rs;
       if (rs.status === 'success') {
         if (!window.localStorage.getItem(this.getRealKeyName(this.config.uid))) {
           window.localStorage.setItem(this.getRealKeyName(this.config.uid), rs.token);
         }
       } else {
         console.error('获取今日诗词Token失败');
-      }
-      return rs;
+      }      
+      return res;
     })
   }
 }
