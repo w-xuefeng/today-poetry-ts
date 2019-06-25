@@ -1,0 +1,26 @@
+{
+  "name": "today-poetry-ts",
+  "version": "1.0.0",
+  "description": "Typescript Version of Today's Poems（jirishici）今日诗词api的Typescript版本",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/w-xuefeng/today-poetry-ts.git"
+  },
+  "keywords": [
+    "诗词",
+    "随机",
+    "today",
+    "poetry",
+    "poems"
+  ],
+  "author": "w-xuefeng",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/w-xuefeng/today-poetry-ts/issues"
+  },
+  "homepage": "https://github.com/w-xuefeng/today-poetry-ts#readme"
+}
