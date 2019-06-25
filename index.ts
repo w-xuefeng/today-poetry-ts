@@ -15,7 +15,7 @@ interface Res {
       recommendedReason?: string | null;
       cacheAt?: string;
   } | string;
-  token?: string;
+  token: string;
   ipAddress?: string;
   errCode?: number | string;
   errMessage?: string;

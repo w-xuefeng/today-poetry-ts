@@ -1,6 +1,6 @@
 {
   "name": "today-poetry-ts",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Typescript Version of Today's Poems（jirishici）今日诗词api的Typescript版本",
   "main": "index.ts",
   "scripts": {
