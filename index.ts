@@ -1,25 +1,28 @@
-interface Res {
+interface Res<T> {
   status: string;
-  data?: {
-      id: string;
-      content: string;
-      popularity?: number;
-      origin?: {
-          title?: string;
-          dynasty?: string;
-          author?: string;
-          content?: string[];
-          translate?: string[];
-      };
-      matchTags?: string[];
-      recommendedReason?: string | null;
-      cacheAt?: string;
-  } | string;
-  token: string;
+  data: T;
+  token?: string;
   ipAddress?: string;
+  warning?: null | string;
   errCode?: number | string;
   errMessage?: string;
 }
+
+interface Poetry {
+  id: string;
+  content: string;
+  popularity?: number;
+  origin?: {
+      title?: string;
+      dynasty?: string;
+      author?: string;
+      content?: string[];
+      translate?: string[];
+  };
+  matchTags?: string[];
+  recommendedReason?: string | null;
+  cacheAt?: string;
+};
 
 class TP {
   public config: {
@@ -41,7 +44,7 @@ class TP {
     this.config = { keyName, getTokenUrl, uid, ...options };
   }
 
-  public async getToken (uid?: string | number): Promise<Res> {
+  public async getToken (uid?: string | number): Promise<Res<string>> {
     if (uid) {
       this.config.uid = uid;
     }
@@ -72,7 +75,7 @@ class TP {
     window.localStorage.removeItem(String(this.config.uid));
   }
 
-  public load (): Promise<Res> {
+  public load (): Promise<Res<Poetry>> {
     const realKeyName: string = this.getRealKeyName(this.config.uid);
     if (window.localStorage && window.localStorage.getItem(realKeyName)) {
       return this.commonLoad(window.localStorage.getItem(realKeyName));
@@ -81,22 +84,22 @@ class TP {
     }
   }
 
-  private corsLoad (): Promise<Res> {
+  private corsLoad (): Promise<Res<Poetry>> {
     return this.sendRequest('https://v2.jinrishici.com/one.json?client=npm-sdk/1.0');
   }
 
-  private commonLoad(token: string | null): Promise<Res> {
+  private commonLoad(token: string | null): Promise<Res<Poetry>> {
     return token ?
       this.sendRequest(`https://v2.jinrishici.com/one.json?client=npm-sdk/1.0&X-User-Token=${encodeURIComponent(token)}`) :
       this.corsLoad();
   }
 
-  private async sendRequest(apiUrl: string): Promise<Res> {
+  private async sendRequest(apiUrl: string): Promise<Res<Poetry>> {
     const rs: Response = await fetch(apiUrl);
-    const res: Res = await rs.json();
+    const res: Res<Poetry> = await rs.json();
     if (res.status === 'success') {
       if (!window.localStorage.getItem(this.getRealKeyName(this.config.uid))) {
-        window.localStorage.setItem(this.getRealKeyName(this.config.uid), res.token);
+        window.localStorage.setItem(this.getRealKeyName(this.config.uid), String(res.token));
       }
     } else {
       console.error('获取今日诗词Token失败');
