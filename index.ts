@@ -1,19 +1,19 @@
 class Res {
   status: string;
   data?: {
-      id: string,
-      content: string,
-      popularity?: number,
+      id: string;
+      content: string;
+      popularity?: number;
       origin?: {
-          title?: string,
-          dynasty?: string,
-          author?: string,
-          content?: string[],
-          translate?: string[],
-      },
-      matchTags?: string[],
-      recommendedReason?: string | null,
-      cacheAt?: string,
+          title?: string;
+          dynasty?: string;
+          author?: string;
+          content?: string[];
+          translate?: string[];
+      };
+      matchTags?: string[];
+      recommendedReason?: string | null;
+      cacheAt?: string;
   } | string;
   token?: string;
   ipAddress?: string;
@@ -23,17 +23,17 @@ class Res {
 
 class TP {
   public config: {
-    keyName?: string,
-    getTokenUrl: string,
-    uid: string | number,
-    others?: any,
+    keyName?: string;
+    getTokenUrl: string;
+    uid: string | number;
+    others?: any;
   };
 
   public constructor (options: {
-    keyName?: string,
-    getTokenUrl?: string,
+    keyName?: string;
+    getTokenUrl?: string;
     uid?: string | number;
-    others?: any,
+    others?: any;
   }) {
     const keyName = 'jinrishici-token';
     const getTokenUrl = 'https://v2.jinrishici.com/token';
