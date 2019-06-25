@@ -59,8 +59,12 @@ class TP {
     return `${this.config.keyName}_${uid}`;
   }
 
-  public login (uid: string | number): void {
+  public setUid (uid: string | number): TP {
     this.config.uid = uid;
+    return this;
+  }
+
+  public login (uid?: string | number): void {
     this.getToken(uid);
   }
 

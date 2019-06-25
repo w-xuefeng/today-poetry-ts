@@ -2,7 +2,7 @@
 
 - 本项目为`第三方`版本，非官方版本
 
-- 官方原包为js版本，此项目为官方原版本添加了类型声明文件，可在ts项目中使用
+- 官方原包为js版本，此项目为typescript版本，可在ts项目中使用
 
 - 如何使用本项目：
 
@@ -16,15 +16,19 @@
     keyName: '_today_poetry_token_'
   });
 
-  // 登录用户可以调用tp.login(uid: number | string)获取token
-  tp.login(uid);
+  // 登录用户 获取token, 其中uid: number | string
+  tp.setUid(uid);
+  tp.login();
+  // 或者 tp.setUid(uid).login();
 
   tp.load().then(rs => {
     // TODO
   });
 
-  // 用户注销登录的时候可以调用tp.logout()删除token
+  // 用户注销登录 删除token
+  tp.setUid(uid);
   tp.logout();
+  // 或者 tp.setUid(uid).logout();
   ```
 
 - 官方原版项目名称：`jinrishici`
