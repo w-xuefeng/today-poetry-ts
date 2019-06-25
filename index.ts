@@ -1,4 +1,4 @@
-class Res {
+interface Res {
   status: string;
   data?: {
       id: string;
