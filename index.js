@@ -4,21 +4,26 @@ class TP {
     const keyName = 'jinrishici-token';
     const getTokenUrl = 'https://v2.jinrishici.com/token';
     this.config = { keyName, getTokenUrl, ...options };
-    this.getToken();
   }
 
-  getToken () {
+  login (uid) {
+    this.getToken(uid);
+  }
+
+  getToken (uid) {
+    const realKeyName = `${this.config.keyName}_${uid}`;
     fetch(this.config.getTokenUrl).then(rs => rs.json()).then(rs => {
       if (rs.status === 'success') {
-        window.localStorage.setItem(this.config.keyName, rs.data);
+        window.localStorage.setItem(realKeyName, rs.data);
       } else {
         console.error('获取今日诗词Token失败');
       }
     })
   }
 
-  removeToken () {
-    window.localStorage.removeItem(this.config.keyName);
+  logout (uid) {
+    const realKeyName = `${this.config.keyName}_${uid}`;
+    window.localStorage.removeItem(realKeyName);
   }
 
   load (callback, errHandler) {

@@ -9,6 +9,25 @@
   ```shell
   npm install today-poetry-ts
   ```
+  ```ts
+  import TP from 'today-poetry-ts';
+
+  const tp = new TP({
+    keyName: '_today_poetry_token_'
+  });
+
+  // 登录用户可以调用tp.login(uid: number | string)获取token
+  tp.login(uid);
+
+  tp.load(rs => {
+    // TODO
+    //console.log(rs)
+  });
+
+  // 用户注销登录的时候可以调用tp.logout(uid)删除token
+  tp.logout(uid);
+
+  ```
 
 - 官方原版项目名称：`jinrishici`
 
@@ -27,7 +46,7 @@
 > ```javascript
 > const jinrishici = require('jinrishici');
 > jinrishici.load(result => {
-> 	console.log(result);
+>   console.log(result);
 > });
 > ```
 > 
