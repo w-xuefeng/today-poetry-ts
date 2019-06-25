@@ -1,4 +1,4 @@
-interface Res {
+class Res {
   status: string;
   data?: {
       id: string,
@@ -88,17 +88,16 @@ class TP {
   }
 
   private async sendRequest(apiUrl: string): Promise<Res> {
-    return await fetch(apiUrl).then(rs => rs.json()).then(rs => {
-      const res: Res = rs;
-      if (rs.status === 'success') {
-        if (!window.localStorage.getItem(this.getRealKeyName(this.config.uid))) {
-          window.localStorage.setItem(this.getRealKeyName(this.config.uid), rs.token);
-        }
-      } else {
-        console.error('获取今日诗词Token失败');
-      }      
-      return res;
-    })
+    const rs: Response = await fetch(apiUrl);
+    const res: Res = await rs.json();
+    if (res.status === 'success') {
+      if (!window.localStorage.getItem(this.getRealKeyName(this.config.uid))) {
+        window.localStorage.setItem(this.getRealKeyName(this.config.uid), res.token);
+      }
+    } else {
+      console.error('获取今日诗词Token失败');
+    }
+    return res;
   }
 }
 
