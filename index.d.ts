@@ -10,6 +10,7 @@ declare class TP {
     others?: any
   });
   getToken(uid: string | number): void;
+  getRealKeyName(uid: string | number): string;
   login(uid: string | number): void;
   logout(uid: string | number): void;
   load (callback: Function, errHandler: Function): any;

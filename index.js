@@ -6,24 +6,26 @@ class TP {
     this.config = { keyName, getTokenUrl, ...options };
   }
 
-  login (uid) {
-    this.getToken(uid);
-  }
-
-  getToken (uid) {
-    const realKeyName = `${this.config.keyName}_${uid}`;
+  getToken (uid) {    
     fetch(this.config.getTokenUrl).then(rs => rs.json()).then(rs => {
       if (rs.status === 'success') {
-        window.localStorage.setItem(realKeyName, rs.data);
+        window.localStorage.setItem(this.getRealKeyName(uid), rs.data);
       } else {
         console.error('获取今日诗词Token失败');
       }
     })
   }
 
+  getRealKeyName (uid) {
+    return `${this.config.keyName}_${uid}`;
+  }
+
+  login (uid) {
+    this.getToken(uid);
+  }
+
   logout (uid) {
-    const realKeyName = `${this.config.keyName}_${uid}`;
-    window.localStorage.removeItem(realKeyName);
+    window.localStorage.removeItem(this.getRealKeyName(uid));
   }
 
   load (callback, errHandler) {
