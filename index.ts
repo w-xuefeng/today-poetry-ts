@@ -88,9 +88,11 @@ class TP {
   private async sendRequest(apiUrl: string): Promise<Res> {
     return await fetch(apiUrl).then(rs => rs.json()).then(rs => {
       if (rs.status === 'success') {
-        window.localStorage.setItem(this.getRealKeyName(this.config.uid), rs.token);
+        if(!window.localStorage.getItem(this.getRealKeyName(this.config.uid))){
+          window.localStorage.setItem(this.getRealKeyName(this.config.uid), rs.token);
+        }
       } else {
-        console.error('获取今日诗词Token失败');
+        console.error('获取今日诗词失败');
       }
       return rs;
     })
