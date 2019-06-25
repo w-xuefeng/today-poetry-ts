@@ -1,12 +1,12 @@
 declare class TP {
   config: {
-    keyName: string,
-    getTokenUrl: string,
+    keyName?: string,
+    getTokenUrl?: string,
     others?: any
   };
   constructor(options: {
-    keyName: string,
-    getTokenUrl: string,
+    keyName?: string,
+    getTokenUrl?: string,
     others?: any
   });
   getToken(uid: string | number): void;
