@@ -9,11 +9,11 @@ interface Res {
           dynasty?: string,
           author?: string,
           content?: string[],
-          translate?: string[]
+          translate?: string[],
       },
       matchTags?: string[],
       recommendedReason?: string | null,
-      cacheAt?: string
+      cacheAt?: string,
   } | string;
   token?: string;
   ipAddress?: string;
@@ -21,19 +21,19 @@ interface Res {
   errMessage?: string;
 }
 
-class TP {  
+class TP {
   public config: {
     keyName?: string,
-    getTokenUrl?: string,
-    uid?: string | number;
-    others?: any
-  }; 
+    getTokenUrl: string,
+    uid: string | number,
+    others?: any,
+  };
 
   public constructor (options: {
     keyName?: string,
     getTokenUrl?: string,
     uid?: string | number;
-    others?: any
+    others?: any,
   }) {
     const keyName = 'jinrishici-token';
     const getTokenUrl = 'https://v2.jinrishici.com/token';
@@ -68,7 +68,7 @@ class TP {
     window.localStorage.removeItem(String(this.config.uid));
   }
 
-  public load (): Promise<Res>  {
+  public load (): Promise<Res> {
     const realKeyName: string = this.getRealKeyName(this.config.uid);
     if (window.localStorage && window.localStorage.getItem(realKeyName)) {
       return this.commonLoad(window.localStorage.getItem(realKeyName));
@@ -77,22 +77,24 @@ class TP {
     }
   }
 
-  private corsLoad (): Promise<Res>  {
+  private corsLoad (): Promise<Res> {
     return this.sendRequest('https://v2.jinrishici.com/one.json?client=npm-sdk/1.0');
   }
 
-  private commonLoad(token: string): Promise<Res> {
-    return this.sendRequest(`https://v2.jinrishici.com/one.json?client=npm-sdk/1.0&X-User-Token=${encodeURIComponent(token)}`);
+  private commonLoad(token: string | null): Promise<Res> {
+    return token ?
+      this.sendRequest(`https://v2.jinrishici.com/one.json?client=npm-sdk/1.0&X-User-Token=${encodeURIComponent(token)}`) :
+      this.corsLoad();
   }
 
   private async sendRequest(apiUrl: string): Promise<Res> {
     return await fetch(apiUrl).then(rs => rs.json()).then(rs => {
       if (rs.status === 'success') {
-        if(!window.localStorage.getItem(this.getRealKeyName(this.config.uid))){
+        if (!window.localStorage.getItem(this.getRealKeyName(this.config.uid))) {
           window.localStorage.setItem(this.getRealKeyName(this.config.uid), rs.token);
         }
       } else {
-        console.error('获取今日诗词失败');
+        console.error('获取今日诗词Token失败');
       }
       return rs;
     })
