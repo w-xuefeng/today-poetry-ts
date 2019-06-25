@@ -19,14 +19,12 @@
   // 登录用户可以调用tp.login(uid: number | string)获取token
   tp.login(uid);
 
-  tp.load(rs => {
+  tp.load().then(rs => {
     // TODO
-    //console.log(rs)
   });
 
-  // 用户注销登录的时候可以调用tp.logout(uid)删除token
-  tp.logout(uid);
-
+  // 用户注销登录的时候可以调用tp.logout()删除token
+  tp.logout();
   ```
 
 - 官方原版项目名称：`jinrishici`
