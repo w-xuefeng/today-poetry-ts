@@ -1,4 +1,4 @@
-interface Res<T> {
+export interface Res<T> {
   status: string;
   data: T;
   token?: string;
@@ -8,7 +8,7 @@ interface Res<T> {
   errMessage?: string;
 }
 
-interface Poetry {
+export interface Poetry {
   id: string;
   content: string;
   popularity?: number;
@@ -24,7 +24,7 @@ interface Poetry {
   cacheAt?: string;
 };
 
-class TP {
+export class TP {
   public config: {
     keyName?: string;
     getTokenUrl: string;
