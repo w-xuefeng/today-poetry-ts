@@ -1,8 +1,8 @@
 {
   "name": "today-poetry-ts",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Typescript Version of Today's Poems（jirishici）今日诗词api的Typescript版本",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
