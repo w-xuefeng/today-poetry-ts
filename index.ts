@@ -77,21 +77,20 @@ export class TP {
 
   public load (): Promise<Res<Poetry>> {
     const realKeyName: string = this.getRealKeyName(this.config.uid);
-    if (window.localStorage && window.localStorage.getItem(realKeyName)) {
-      return this.commonLoad(window.localStorage.getItem(realKeyName));
+    const token = window.localStorage && window.localStorage.getItem(realKeyName);
+    if (token) {
+      return this.commonLoad(token);
     } else {
       return this.corsLoad();
     }
   }
 
-  private corsLoad (): Promise<Res<Poetry>> {
+  public corsLoad (): Promise<Res<Poetry>> {
     return this.sendRequest('https://v2.jinrishici.com/one.json?client=npm-sdk/1.0');
   }
 
-  private commonLoad(token: string | null): Promise<Res<Poetry>> {
-    return token ?
-      this.sendRequest(`https://v2.jinrishici.com/one.json?client=npm-sdk/1.0&X-User-Token=${encodeURIComponent(token)}`) :
-      this.corsLoad();
+  public commonLoad(token: string): Promise<Res<Poetry>> {
+    return this.sendRequest(`https://v2.jinrishici.com/one.json?client=npm-sdk/1.0&X-User-Token=${encodeURIComponent(token)}`)
   }
 
   private async sendRequest(apiUrl: string): Promise<Res<Poetry>> {
