@@ -26,22 +26,28 @@ export interface Poetry {
 
 export class TP {
   public config: {
-    keyName?: string;
+    keyName: string;
     getTokenUrl: string;
+    requestUrl: string;
+    tokenName: string;
     uid: string | number;
     others?: any;
   };
 
-  public constructor (options: {
+  public constructor (options?: {
     keyName?: string;
     getTokenUrl?: string;
+    requestUrl?: string;
+    tokenName?: string;
     uid?: string | number;
     others?: any;
   }) {
     const keyName = 'jinrishici-token';
     const getTokenUrl = 'https://v2.jinrishici.com/token';
+    const requestUrl = 'https://v2.jinrishici.com/one.json?client=npm-sdk/1.0';
+    const tokenName = 'X-User-Token';
     const uid = 'NoLogin';
-    this.config = { keyName, getTokenUrl, uid, ...options };
+    this.config = { keyName, getTokenUrl, requestUrl, tokenName, uid, ...options };
   }
 
   public async getToken (uid?: string | number): Promise<Res<string>> {
@@ -67,30 +73,39 @@ export class TP {
     return this;
   }
 
-  public login (uid?: string | number): void {
+  public login (uid?: string | number): TP {
     this.getToken(uid);
+    return this;
+  }
+  
+  public logout (uid?: string | number): TP {
+    if (uid) {
+      this.config.uid = uid;
+    }
+    window.localStorage.removeItem(this.getRealKeyName(this.config.uid));
+    return this;
   }
 
-  public logout (): void {
-    window.localStorage.removeItem(String(this.config.uid));
-  }
-
-  public load (): Promise<Res<Poetry>> {
+  public async load (uid?: string | number): Promise<Res<Poetry>> {
+    if (uid) {
+      this.config.uid = uid;
+    }
     const realKeyName: string = this.getRealKeyName(this.config.uid);
     const token = window.localStorage && window.localStorage.getItem(realKeyName);
     if (token) {
       return this.commonLoad(token);
     } else {
-      return this.corsLoad();
+      const rs = await this.getToken();
+      return this.commonLoad(rs.data);
     }
   }
 
-  public corsLoad (): Promise<Res<Poetry>> {
-    return this.sendRequest('https://v2.jinrishici.com/one.json?client=npm-sdk/1.0');
+  public getPoetry (): Promise<Res<Poetry>> {
+    return this.sendRequest(this.config.requestUrl);
   }
 
   public commonLoad(token: string): Promise<Res<Poetry>> {
-    return this.sendRequest(`https://v2.jinrishici.com/one.json?client=npm-sdk/1.0&X-User-Token=${encodeURIComponent(token)}`)
+    return this.sendRequest(`${this.config.requestUrl}&${this.config.tokenName}=${encodeURIComponent(token)}`)
   }
 
   private async sendRequest(apiUrl: string): Promise<Res<Poetry>> {

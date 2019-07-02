@@ -16,19 +16,26 @@
     keyName: '_today_poetry_token_'
   });
 
-  // 登录用户 获取token, 其中uid: number | string
-  tp.setUid(uid);
-  tp.login();
-  // 或者 tp.setUid(uid).login();
-
-  tp.load().then(rs => {
+  // 简单使用 直接获取诗词 【官方不推荐使用】【无token将降低诗词推荐质量】
+  tp.getPoetry().then(rs => {
     // TODO
   });
 
-  // 用户注销登录 删除token
-  tp.setUid(uid);
-  tp.logout();
-  // 或者 tp.setUid(uid).logout();
+  // 登录用户 获取诗词  【官方推荐使用】【携带token】
+  tp.login(uid).load().then(rs => {
+    // TODO
+  });
+
+  // 用户注销
+  tp.logout(uid);
+
+
+  // 手动获取token 然后携带token获取诗词
+  tp.setUid(uid).getToken().then(rs => (
+    rs.status === 'success' && tp.commonLoad(rs.data)
+  )).then(rs => {
+    // TODO
+  });
   ```
 
 - 官方原版项目名称：`jinrishici`
